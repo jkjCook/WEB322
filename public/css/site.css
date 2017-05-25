@@ -84,3 +84,8 @@ body{
 		.container{
 			position:relative;
 		}
+		#js{
+			padding-top:20%;
+			padding-left:18%;
+			padding-bottom:3%;
+		}

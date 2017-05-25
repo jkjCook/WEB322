@@ -52,3 +52,9 @@ body{
 			margin:auto;
 			column-width:30%;
 		}
+		article {
+			padding-left:5%;
+			column-width: 40%;
+			margin:auto;
+			overflow-y:scroll;
+		}

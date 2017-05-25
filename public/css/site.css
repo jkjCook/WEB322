@@ -47,3 +47,8 @@ body{
 			font-size:13px;
 			padding:0 5px;	
 		}
+		aside {
+			float:left;
+			margin:auto;
+			column-width:30%;
+		}

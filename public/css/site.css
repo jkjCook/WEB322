@@ -91,6 +91,6 @@ body{
 		}
 		#testdiv{
 			border:8px solid #92C1E9;
-			box-shadow:4px 4px 4px #ddd; 
+			/*box-shadow:4px 4px 4px #ddd;*/ 
 			
 		}

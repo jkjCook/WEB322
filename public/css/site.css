@@ -112,7 +112,5 @@ body{
 			padding-bottom:18%;
 		}
 		#testdiv{
-			border:8px solid #92C1E9;
-			/*box-shadow:4px 4px 4px #ddd;*/ 
-			
+			border:8px solid #92C1E9; 
 		}

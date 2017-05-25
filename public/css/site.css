@@ -11,6 +11,7 @@ body{
 	    }
 		
 		header{
+			
 			background-color: #f89778;
 			padding:5px 25px;
 		}
@@ -80,8 +81,6 @@ body{
 		h2{
 			font-family:Assistant;
 		}
-		.titlediv{
+		.container{
 			position:relative;
-			left:5;
-			background-color:black;
 		}

@@ -9,7 +9,6 @@
 * Online (Heroku) Link: https://vast-stream-84912.herokuapp.com/
 *
 ********************************************************************************/
-console.log("testing!!");
 
 var express = require("express");
 var app = express();

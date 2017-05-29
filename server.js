@@ -13,7 +13,7 @@
 var express = require("express");
 var app = express();
 var path = require("path");
-var data = require("data-service.js");  
+var data = require("./data-service.js");  
 var querystring = require("querystring");
 app.use(express.static('public'));
 

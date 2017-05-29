@@ -40,9 +40,7 @@ app.get("/about", function(req,res){
 });
 
 app.get("/employees*", function(req,res){
-  var result = querystring.parse("http://localhost:8080/employees?department=1", "?", "=");
-  console.log(result);
-  res.send("result");
+  res.send(querystring.parse(req.originalUrl, "?", "="));
 });
 
 // setup http server to listen on HTTP_PORT

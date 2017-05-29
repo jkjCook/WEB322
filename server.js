@@ -42,6 +42,9 @@ app.get("/about", function(req,res){
 app.get("/employees*", function(req,res){
   res.send(querystring.parse(req.originalUrl, "?", "="));
 });
+app.get("/employees/", function(req,res){
+  res.send(querystring.parse(req.originalUrl, "?", "="));
+});
 
 // setup http server to listen on HTTP_PORT
 app.listen(HTTP_PORT, onHttpStart);

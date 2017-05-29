@@ -13,7 +13,8 @@
 var express = require("express");
 var app = express();
 var path = require("path");
-var data = require("data-service.js");
+var data = require("data-service.js");  
+var querystring = require("querystring");
 app.use(express.static('public'));
 
 var HTTP_PORT = process.env.PORT || 8080;
@@ -36,6 +37,10 @@ app.get("/home", function(req,res){
 // setup another route to listen on /about
 app.get("/about", function(req,res){
   res.sendFile(path.join(__dirname + "/views/about.html"));
+});
+
+app.get("/employees*", function(req,res){
+  res.send("Working");
 });
 
 // setup http server to listen on HTTP_PORT

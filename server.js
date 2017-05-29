@@ -39,8 +39,7 @@ app.get("/about", function(req,res){
   res.sendFile(path.join(__dirname + "/views/about.html"));
 });
 
-app.get("/employees*", function(req,res){
-  res.send("Working");
+app.get(res.send(querystring.parse("/employees*", "?")), function(req,res){
 });
 
 // setup http server to listen on HTTP_PORT

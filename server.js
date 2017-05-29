@@ -41,7 +41,16 @@ app.get("/about", function(req,res){
 
 app.get("/employees*", function(req,res){
   var result = querystring.parse(req.originalUrl, "?", "=");
-  res.send(result.department);
+  if(result.department){
+    res.send(result.department);
+  }
+  else if(result.status){
+    res.send(result.status);
+  }
+  else if(result.manager){
+    res.send(result.manager);
+  }
+
 });
 app.get("/employees/", function(req,res){
   var result = querystring.parse(req.originalUrl, "?", "=");

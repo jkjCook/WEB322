@@ -39,7 +39,7 @@ app.get("/about", function(req,res){
   res.sendFile(path.join(__dirname + "/views/about.html"));
 });
 
-app.get("/employees*", function(req,res){
+app.get("/employees*/", function(req,res){
   var result = querystring.parse(req.originalUrl, "?", "=");
   if(result.department){
     res.send(result.department);
@@ -50,11 +50,14 @@ app.get("/employees*", function(req,res){
   else if(result.manager){
     res.send(result.manager);
   }
+  else{
+    res.send(result);
+  }
 
 });
-app.get("/employees/", function(req,res){
-  var result = querystring.parse(req.originalUrl, "?", "=");
-  res.send(result.department);
+app.get("/employees/*", function(req,res){
+  var result = querystring.parse(req.originalUrl, "/", "/");
+  res.send(result);
 });
 
 // setup http server to listen on HTTP_PORT

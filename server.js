@@ -40,7 +40,8 @@ app.get("/about", function(req,res){
 });
 
 app.get("/employees*", function(req,res){
-  res.send(querystring.parse(req.originalUrl, "?", "="));
+  var result = querystring.parse(req.originalUrl, "?", "=");
+  res.send(result.department);
 });
 app.get("/employees/", function(req,res){
   var result = querystring.parse(req.originalUrl, "?", "=");

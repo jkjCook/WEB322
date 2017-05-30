@@ -13,7 +13,7 @@
 var express = require("express");
 var app = express();
 var path = require("path");
-var data = require("./data-service.js");  
+var service = require("./data-service.js");  
 var querystring = require("querystring");
 app.use(express.static('public'));
 
@@ -42,23 +42,48 @@ app.get("/about", function(req,res){
 app.get("/employees*/", function(req,res){
   var result = querystring.parse(req.originalUrl, "?", "=");
   if(result.department){
-    res.send(result.department);
+    service.getEmployeesByDepartment(result.department).then((data) =>{
+      res.json(data);
+    }).catch((err) => {
+      res.json({message: err});
+    })
   }
   else if(result.status){
-    res.send(result.status);
+    service.getEmployeesByStatus(result.status).then(function(data){
+      res.json(data);
+    })
   }
   else if(result.manager){
-    res.send(result.manager);
+    service.getEmployeesByManager(result.manager).then(function(data){
+      res.json(data);
+    })
   }
   else{
     res.send(result);
   }
 
 });
-app.get("/employees/*", function(req,res){
-  var result = querystring.parse(req.originalUrl, "/", "/");
-  res.send(result);
+app.get("/employee/[0-9]*", function(req,res){
+  //Had to use a regular substring because the url wasn't in JSON and I couldn't figure out another way
+  var result = req.originalUrl.substring(req.originalUrl.lastIndexOf('/')+1);
+  service.getEmployeeByNum(result).then(function(data){
+      res.json(data);
+    })
+});
+app.get("/managers", function(req,res){
+  service.getManagers().then(function(data){
+      res.json(data);
+    })
+});
+app.get("/departments", function(req,res){
+  service.getDepartments().then(function(data){
+      res.json(data);
+    })
 });
 
 // setup http server to listen on HTTP_PORT
-app.listen(HTTP_PORT, onHttpStart);
+service.initialize().then(()=>{
+  app.listen(HTTP_PORT, onHttpStart);
+}).catch( ()=>{
+  console.log("Error initializing.");
+})

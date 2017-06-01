@@ -36,7 +36,6 @@ app.get("/about", function (req, res) {
 // setup a route to listen for employee queries
 app.get("/employees*/", function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
-
   if (result.department) {
     service.getEmployeesByDepartment(result.department).then((data) => {
       res.json(data);
@@ -60,15 +59,17 @@ app.get("/employees*/", function (req, res) {
     })
   }
   else {
-    res.send(result);
+    service.getAllEmployees().then((data)=>{
+      res.json(data)
+    }).catch((err) =>{
+      res.json({message: err});
+    })
   }
 
 });
 // setup route to employee plus a numeric value for which employee you are looking for
-app.get("/employee/*", function (req, res) {
-  //Had to use a regular substring because the url wasn't in JSON and I couldn't figure out another way
-  var result = req.originalUrl.substring(req.originalUrl.lastIndexOf('/') + 1);
-  service.getEmployeeByNum(result).then(function (data) {
+app.get("/employee/:num", function (req, res) {
+  service.getEmployeeByNum(req.params.num).then(function (data) {
     res.json(data);
   }).catch((err) => {
     res.json({ message: err });

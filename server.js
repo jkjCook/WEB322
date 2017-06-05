@@ -34,7 +34,7 @@ app.get("/about", function (req, res) {
   res.sendFile(path.join(__dirname + "/views/about.html"));
 });
 // setup a route to listen for employee queries
-app.get("/employees*/", function (req, res) {
+app.get("/employees", function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
   if (result.department) {
     service.getEmployeesByDepartment(result.department).then((data) => {

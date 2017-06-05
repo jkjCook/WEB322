@@ -11,11 +11,9 @@ body{
 	    }
 		
 		header{
-			
 			background-color: #f89778;
-			padding:1px 25px;
-			
 		}
+		
 		
 		nav{
 			padding:8px;
@@ -26,8 +24,7 @@ body{
 		
 		nav ul{
 			list-style-type: none;
-			padding-left:0px;
-			margin:0px;
+			margin:1px;
 			font-family:Assistant;
 		}
 		
@@ -40,7 +37,7 @@ body{
 			background-color: #92C1E9;
 			color: #000;
 			text-decoration: none;
-			padding:0 5px;	
+			padding: 0px 5px;	
 			font-weight:bold;
 			text-transform: uppercase;
 			font-size:15px;
@@ -54,67 +51,44 @@ body{
 			bottom:0;
 			left:0;
 			right:0;
-			height:15px;
+			height:35px;
 		}
 		
 		footer h2{
 			margin:0px;
 			text-transform: uppercase;
-			font-size:13px;
-			padding:0 5px;	
+			font-size:15px;
+			padding:0 5px;
+			font-weight:bold;	
 			font-family:Assistant;
 		}
-		aside {
-			padding-right: 4%;
-			padding-left:2%;
+		.col-md-3 {
+			column-width:30%;
 			float:left;
 			margin:auto;
-			column-width:30%;
+			overflow-y:auto;
 		}
-		.main-col-md-9{
+		.col-md-3 h3, .col-md-3 p{
+			text-align:center;
+		}
+		 .main.col-md-9{
+			padding-left:5%;
+			padding-right:2%;
+			margin:auto;
+			overflow-y:auto;
 			margin-top:2%;
 			margin-bottom:5%;
 		}
-		
-		article {	
-			padding-left:5%;
-			padding-right:2%;
-			column-width: 40%;
-			margin:auto;
-			overflow-y:auto;
-			border-left:2px dashed #ddd;
-			
-		}
-		section {
-			padding-right:2%;
-		}
-		h1 {
-			border:1px dashed white;
-			width: 85px;
-  			height: 85px;
-  			border-radius: 50%;
-			font-size: 22px;
-			color: #fff;
-			line-height: 80px;
-			text-align: center;
-			color:#fff;	
-			font-family:Cabin;
-		}
-		.titlediv{
-			float:center;
-		}
-		h2{
-			font-family:Assistant;
-		}
-		.container{
-			position:relative;
-		}
-	
+
 		#js{
 			padding-top:20%;
-			padding-left:18%;
+			padding-left:7%;
 			padding-bottom:18%;
 		}
 		#testdiv{
 			border:8px solid #92C1E9;
 		}
+		.main.col-md-12{
+			padding-left:10%;
+		}
+		

@@ -82,15 +82,10 @@ body{
 			padding-bottom:5%;
 		}
 		
-		h1 {
-			border:1px dashed white;
-			width: 85px;
-  			height: 85px;
-  			border-radius: 50%;
+		header h1 {	
+			padding-left:16px;
 			font-size: 22px;
 			color: #fff;
-			line-height: 80px;
-			text-align: center;
 			color:#fff;	
 			font-family:Cabin;
 		}

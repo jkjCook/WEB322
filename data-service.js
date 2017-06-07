@@ -6,7 +6,6 @@ var departments = [];
 module.exports.initialize = function () {
     var loadError;
 
-    return new Promise(function (resolve, reject) {
         fs.readFile('./data/employees.json', 'utf8', (err, data) => {
         if (err) throw new Error(err);
         else employees = JSON.parse(data);
@@ -16,7 +15,7 @@ module.exports.initialize = function () {
         if(err) throw new Error (err);
         departments = JSON.parse(data);
     })
-        
+return new Promise(function (resolve, reject) {        
         if (loadError) reject(loadError);
         else resolve("Has been resolved");
     })

@@ -4,20 +4,20 @@ var employees = [];
 var departments = [];
 
 module.exports.initialize = function () {
-    var loadError = false;
+    var loadError;
 
     fs.readFile('./data/employees.json', 'utf8', (err, data) => {
-        if (err) loadError = true;
+        if (err) throw err;
         else employees = JSON.parse(data);
     });
 
     fs.readFile('./data/departments.json', 'utf8', (err, data) => {
-        if (err) loadError = true;
-        else departments = JSON.parse(data);
-    });
+        if(err) throw err;
+        departments = JSON.parse(data);
+    })
 
     return new Promise(function (resolve, reject) {
-        if (loadError) reject();
+        if (loadError) reject(loadError);
         else resolve("Has been resolved");
     })
 

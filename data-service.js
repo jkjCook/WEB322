@@ -76,7 +76,6 @@ module.exports.getEmployeesByManager = function (manager) {
 module.exports.getEmployeeByNum = function (num) {
     return new Promise(function (resolve, reject) {
         if (employees.length == 0) reject("No results returned.");
-
         else {
             for (var i = 0; i < employees.length; i++) {
                 if (employees[i].employeeNum == num) {

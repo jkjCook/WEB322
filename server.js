@@ -59,9 +59,9 @@ app.get("/employees", function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
   if (result.department) {
     service.getEmployeesByDepartment(result.department).then((data) => {
-      res.json(data);
+      res.render("departmentList", { data: data, title: "Emoloyees" }); 
     }).catch((err) => {
-      res.json({ message: err });
+      res.render("departmentList", { data: {}, title: "Employees" });
     })
   }
 
@@ -81,9 +81,9 @@ app.get("/employees", function (req, res) {
   }
   else {
     service.getAllEmployees().then((data) => {
-      res.json(data)
+      res.render("employeeList", { data: data, title: "Employees" }); 
     }).catch((err) => {
-      res.json({ message: err });
+      res.render("employeeList", { data: {}, title: "Employees" });
     })
   }
 
@@ -107,10 +107,14 @@ app.get("/managers", function (req, res) {
 // setup route for all departments
 app.get("/departments", function (req, res) {
   service.getDepartments().then(function (data) {
-    res.json(data);
+    res.render("departmentList", { data: data, title: "Departments" });
   }).catch((err) => {
-    res.json({ message: err });
+    res.render("departmentList", { data: {}, title: "Departments" });
   })
+});
+//Route to add new employee
+app.get("/employees/add", (req,res) => {
+ res.render("addEmployee");
 });
 // send a status code and a message when going to a route that's not included
 app.use(function (req, res) {

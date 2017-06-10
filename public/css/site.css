@@ -11,14 +11,14 @@ body{
 		
 		header{
 			
-			background-color: #f89778;
+			background-color: teal;
 			padding:1px 25px;
 			
 		}
 		
 		nav{
 			padding:8px;
-			background-color: #92C1E9;
+			background-color: #FCFBE3;
 			box-shadow:2px 2px 2px grey;
 			margin-bottom:10px;
 		}
@@ -32,11 +32,11 @@ body{
 		
 		nav ul li{
 			display:inline-block;
-			background-color: #92C1E9;
+			background-color: #FCFBE3;
 		}
 		
 		nav ul li a{
-			background-color: #92C1E9;
+			background-color: #FCFBE3;
 			color: #000;
 			text-decoration: none;
 			padding:0 5px;	
@@ -46,7 +46,7 @@ body{
 		}
 		
 		footer{
-			background-color: #92C1E9;
+			background-color: #FCFBE3;
 			color: #000;
 			padding:10px;
 			position:fixed;
@@ -87,6 +87,7 @@ body{
 			color: #fff;
 			color:#fff;	
 			font-family:Cabin;
+			
 		}
 	
 		.col-md-3 img{
@@ -96,7 +97,7 @@ body{
 		}
 		.col-md-3 div{
 			width:250px;
-			border:8px solid #92C1E9;
+			border:8px solid teal;
 		}
 		.main.col-md-12{
 			margin-top:20px;

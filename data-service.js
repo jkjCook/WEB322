@@ -2,22 +2,28 @@ var fs = require("fs");
 
 var employees = [];
 var departments = [];
+var empCount = 0;
 
 module.exports.initialize = function () {
     var loadError;
 
-        fs.readFile('./data/employees.json', 'utf8', (err, data) => {
+    fs.readFile('./data/employees.json', 'utf8', (err, data) => {
         if (err) throw new Error(err);
-        else employees = JSON.parse(data);
-    });
+        else {
+            employees = JSON.parse(data);
+        }
+    })
 
     fs.readFile('./data/departments.json', 'utf8', (err, data) => {
-        if(err) throw new Error (err);
+        if (err) throw new Error(err);
         departments = JSON.parse(data);
     })
-return new Promise(function (resolve, reject) {        
+    return new Promise(function (resolve, reject) {
         if (loadError) reject(loadError);
-        else resolve("Has been resolved");
+        else {
+            empCount = employees.length;
+            resolve("success");
+        }
     })
 
 }
@@ -104,6 +110,21 @@ module.exports.getDepartments = function () {
     return new Promise(function (resolve, reject) {
         if (departments.length == 0) reject("No results found.");
         else resolve(departments);
+    })
+}
+module.exports.addEmployee = function (employeeData) {
+    empCount = employees.length;
+    empCount++;
+    return new Promise((resolve, reject) => {
+        employeeData.employeeNum = empCount;
+        employees.push(employeeData);
+        if(employees[empCount - 1].employeeNum == empCount){
+            resolve();
+        }
+        else{
+            reject("Wasn't added correctly");
+        }
+
     })
 }
 

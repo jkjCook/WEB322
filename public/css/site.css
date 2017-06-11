@@ -104,5 +104,10 @@ body{
 			margin-top:20px;
 			padding-bottom:15px;	
 			border: 2px dashed #ddd;
-
+		}
+		#empButton{
+			margin-bottom:5%;
+		}
+		.list.col-md-12{
+			margin-bottom:4%;
 		}

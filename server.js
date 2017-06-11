@@ -59,7 +59,7 @@ app.get("/employees", function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
   if (result.department) {
     service.getEmployeesByDepartment(result.department).then((data) => {
-      res.render("departmentList", { data: data, title: "Emoloyees" }); 
+      res.render("departmentList", { data: data, title: "Emoloyees" });
     }).catch((err) => {
       res.render("departmentList", { data: {}, title: "Employees" });
     })
@@ -81,7 +81,7 @@ app.get("/employees", function (req, res) {
   }
   else {
     service.getAllEmployees().then((data) => {
-      res.render("employeeList", { data: data, title: "Employees" }); 
+      res.render("employeeList", { data: data, title: "Employees" });
     }).catch((err) => {
       res.render("employeeList", { data: {}, title: "Employees" });
     })
@@ -91,9 +91,9 @@ app.get("/employees", function (req, res) {
 // setup route to employee plus a numeric value for which employee you are looking for
 app.get("/employee/:num", function (req, res) {
   service.getEmployeeByNum(req.params.num).then(function (data) {
-    res.json(data);
+    res.render("employee", { data: data });
   }).catch((err) => {
-    res.json({ message: err });
+    res.status(404).send("Employee Not Found"); 
   })
 });
 // setup route for all managers
@@ -113,9 +113,23 @@ app.get("/departments", function (req, res) {
   })
 });
 //Route to add new employee
-app.get("/employees/add", (req,res) => {
- res.render("addEmployee");
+app.get("/employees/add", (req, res) => {
+  res.render("addEmployee");
 });
+//Post route for adding a new employee
+app.post("/employees/add", (req, res) => {
+  service.addEmployee(req.body).then(() => {
+    res.redirect("/employees");
+  }).catch((err) => {
+    res.json(err);
+  })
+});
+//Post route to update employee information
+app.post("/employee/update", (req, res) => {
+ console.log(req.body);
+ res.redirect("/employees");
+});
+
 // send a status code and a message when going to a route that's not included
 app.use(function (req, res) {
   res.status(404);
@@ -125,6 +139,6 @@ app.use(function (req, res) {
 // setup http server to listen on HTTP_PORT
 service.initialize().then(() => {
   app.listen(HTTP_PORT, onHttpStart);
-}).catch(() => {
-  console.log("Error initializing.");
+}).catch((err) => {
+  console.log(err);
 })

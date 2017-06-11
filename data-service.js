@@ -99,7 +99,7 @@ module.exports.getManagers = function () {
         else {
             var holder = [];
             for (var i = 0; i < employees.length; i++) {
-                if (employees[i].isManager == true)
+                if (employees[i].isManager == true || employees[i].isManager == 'on')
                     holder.push(employees[i]);
             }
             resolve(holder);
@@ -127,4 +127,15 @@ module.exports.addEmployee = function (employeeData) {
 
     })
 }
-
+module.exports.updateEmployee = function(employeeData){
+    return new Promise((resolve, reject) =>{
+        var match = false;
+        for (var i = 0; i < employees.length; i++){
+            if(employeeData.employeeNum == employees[i].employeeNum){
+                employees[i] = employeeData;
+                match = true;
+            }
+        }
+        (match) ? resolve() : reject();    
+    })
+} 

@@ -1,10 +1,10 @@
 /*********************************************************************************
-* WEB322 – Assignment 03
+* WEB322 – Assignment 04
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
 *
-* Name: Justin Cook   Student ID: 118404169   Date: 2017-02-25
+* Name: Justin Cook   Student ID: 118404169   Date: 2017-06-10
 *
 * Online (Heroku) Link: https://vast-stream-84912.herokuapp.com/
 *
@@ -59,24 +59,24 @@ app.get("/employees", function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
   if (result.department) {
     service.getEmployeesByDepartment(result.department).then((data) => {
-      res.render("departmentList", { data: data, title: "Emoloyees" });
+      res.render("employeeList", { data: data, title: "Emoloyees" });
     }).catch((err) => {
-      res.render("departmentList", { data: {}, title: "Employees" });
+      res.render("employeeList", { data: {}, title: "Employees" });
     })
   }
 
   else if (result.status) {
     service.getEmployeesByStatus(result.status).then(function (data) {
-      res.json(data);
+      res.render("employeeList", { data: data, title: "Emoloyees" });
     }).catch((err) => {
-      res.json({ message: err });
+      res.render("employeeList", { data: {}, title: "Employees" });
     })
   }
   else if (result.manager) {
     service.getEmployeesByManager(result.manager).then(function (data) {
-      res.json(data);
+      res.render("employeeList", { data: data, title: "Emoloyees" });
     }).catch((err) => {
-      res.json({ message: err });
+      res.render("employeeList", { data: {}, title: "Employees" });
     })
   }
   else {
@@ -99,9 +99,9 @@ app.get("/employee/:num", function (req, res) {
 // setup route for all managers
 app.get("/managers", function (req, res) {
   service.getManagers().then(function (data) {
-    res.json(data);
+     res.render("employeeList", { data: data, title: "Employees (Managers)" });
   }).catch((err) => {
-    res.json({ message: err });
+    res.render("employeeList", { data: {}, title:"Employees (Managers)" });
   })
 });
 // setup route for all departments
@@ -126,8 +126,11 @@ app.post("/employees/add", (req, res) => {
 });
 //Post route to update employee information
 app.post("/employee/update", (req, res) => {
- console.log(req.body);
- res.redirect("/employees");
+ service.updateEmployee(req.body).then(() =>{
+   res.redirect("/employees");
+ }).catch(() =>{
+   console.log("Error!");
+ })
 });
 
 // send a status code and a message when going to a route that's not included

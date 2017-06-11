@@ -1,12 +1,13 @@
 <div class="row">
     <div class="col-md-12">
-        <h1>{{data.firstName}} {{data.last_name}} - Employee: {{data.employeeNum}}</h2>
+        <h1>{{data.firstName}} {{data.last_name}} - Employee: {{data.employeeNum}}</h1>
             <form method="post" action="/employee/update">
                 <fieldset>
                     <legend>Personal Information</legend>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
+                                <input type="hidden" value="{{data.employeeNum}}" name="employeeNum" class="form-control"/> 
                                 <label for="firstName">First Name:</label>
                                 <input class="form-control" id="firstName" name="firstName" type="text" value="{{data.firstName}}" />
                             </div>

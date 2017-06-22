@@ -67,14 +67,14 @@ app.get("/employees", function (req, res) {
 
   else if (result.status) {
     service.getEmployeesByStatus(result.status).then(function (data) {
-      res.render("employeeList", { data: data, title: "Emoloyees" });
+      res.render("employeeList", { data: data, title: "Employees" });
     }).catch((err) => {
       res.render("employeeList", { data: {}, title: "Employees" });
     })
   }
   else if (result.manager) {
     service.getEmployeesByManager(result.manager).then(function (data) {
-      res.render("employeeList", { data: data, title: "Emoloyees" });
+      res.render("employeeList", { data: data, title: "Employees" });
     }).catch((err) => {
       res.render("employeeList", { data: {}, title: "Employees" });
     })
@@ -132,6 +132,7 @@ app.post("/employee/update", (req, res) => {
    console.log("Error!");
  })
 });
+
 
 // send a status code and a message when going to a route that's not included
 app.use(function (req, res) {

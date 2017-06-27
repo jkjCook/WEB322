@@ -38,12 +38,12 @@ app.engine(".hbs", exphbs({
 }));
 app.set("view engine", ".hbs");
 var sequelize = new Sequelize('db1uv67glvpsgd', 'zmbplreuxcxmck', '60f3401ef3f6045f8c33c089c5f1de6c6cfdf167e022d3d085724f3bfb275bd2', {
- host: 'ec2-23-21-246-11.compute-1.amazonaws.com',
- dialect: 'postgres',
- port: 5432,
- dialectOptions: {
- ssl: true
- }
+  host: 'ec2-23-21-246-11.compute-1.amazonaws.com',
+  dialect: 'postgres',
+  port: 5432,
+  dialectOptions: {
+    ssl: true
+  }
 });
 
 
@@ -98,19 +98,50 @@ app.get("/employees", function (req, res) {
 
 });
 // setup route to employee plus a numeric value for which employee you are looking for
-app.get("/employee/:num", function (req, res) {
-  service.getEmployeeByNum(req.params.num).then(function (data) {
-    res.render("employee", { data: data });
+app.get("/employee/:empNum", (req, res) => {
+  // initialize an empty object to store the values
+  let viewData = {};
+  service.getEmployeeByNum(req.params.empNum)
+    .then((data) => {
+      viewData.data = data; //store employee data in the "viewData" object as "data"
+    }).catch(() => {
+      viewData.data = null; // set employee to null if there was an error
+    }).then(service.getDepartments)
+    .then((data) => {
+      viewData.departments = data; // store department data in the "viewData" object as "departments"
+
+      // loop through viewData.departments and once we have found the departmentId that matches
+      // the employee's "department" value, add a "selected" property to the matching
+      // viewData.departments object
+      for (let i = 0; i < viewData.departments.length; i++) {
+        if (viewData.departments[i].departmentId == viewData.data.department) {
+          viewData.departments[i].selected = true;
+        }
+      }
+    }).catch(() => {
+      viewData.departments = []; // set departments to empty if there was an error
+    }).then(() => {
+      if (viewData.data == null) { // if no employee - return an error
+        res.status(404).send("Employee Not Found");
+      } else {
+        res.render("employee", { viewData: viewData }); // render the "employee" view
+      }
+    });
+});
+//route to specific department by departmentId
+app.get("/department/:departmentId", function (req, res) {
+  service.getDepartmentById(req.params.departmentId).then(function (data) {
+    res.render("department", { data: data });
   }).catch((err) => {
-    res.status(404).send("Employee Not Found"); 
+    res.status(404).send("Department Not Found");
   })
 });
 // setup route for all managers
 app.get("/managers", function (req, res) {
   service.getManagers().then(function (data) {
-     res.render("employeeList", { data: data, title: "Employees (Managers)" });
+    res.render("employeeList", { data: data, title: "Employees (Managers)" });
   }).catch((err) => {
-    res.render("employeeList", { data: {}, title:"Employees (Managers)" });
+    res.render("employeeList", { data: {}, title: "Employees (Managers)" });
   })
 });
 // setup route for all departments
@@ -125,6 +156,10 @@ app.get("/departments", function (req, res) {
 app.get("/employees/add", (req, res) => {
   res.render("addEmployee");
 });
+//Route to add new department
+app.get("/departments/add", (req, res) => {
+  res.render("addDepartment");
+});
 //Post route for adding a new employee
 app.post("/employees/add", (req, res) => {
   service.addEmployee(req.body).then(() => {
@@ -133,13 +168,29 @@ app.post("/employees/add", (req, res) => {
     res.json(err);
   })
 });
+//Post route for adding new department
+app.post("/departments/add", (req, res) => {
+  service.addDepartment(req.body).then(() => {
+    res.redirect("/departments");
+  }).catch((err) => {
+    res.json(err);
+  })
+});
 //Post route to update employee information
 app.post("/employee/update", (req, res) => {
- service.updateEmployee(req.body).then(() =>{
-   res.redirect("/employees");
- }).catch(() =>{
-   console.log("Error!");
- })
+  service.updateEmployee(req.body).then(() => {
+    res.redirect("/employees");
+  }).catch(() => {
+    console.log("Error!");
+  })
+});
+//Post route to update department
+app.post("/departments/update", (req, res) => {
+  service.updateDepartment(req.body).then(() => {
+    res.redirect("/departments");
+  }).catch(() => {
+    console.log("Error!");
+  })
 });
 
 

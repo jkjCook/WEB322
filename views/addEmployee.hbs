@@ -66,7 +66,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="isManager">Manager:</label>
-                            <input type="checkbox" name="isManager" id="isManager" class="form-control"/>
+                            <input type="checkbox" name="isManager" id="isManager" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -90,16 +90,18 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="department">Department:</label>
-                            <select name="department" id="department" class="form-control">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select>
+                            <label for="department">Department:</label> 
+                            {{#if departments}}
+                                <select class="form-control" name="department" id="department">
+                                    {{#each departments}}
+                                    <option value="{{departmentId}}">{{departmentName}}</option>
+                                    {{/each}}
+                                </select> 
+                            {{else}}
+                                    <div>No Departments</div>
+                            {{/if}}
+
+
                         </div>
                     </div>
                 </div>
@@ -113,7 +115,8 @@
                 </div>
             </fieldset>
             <hr />
-            <input type="submit" class="btn btn-primary pull-right" value="Add Employee" id="empButton"/><br /><br /><br />
+            <input type="submit" class="btn btn-primary pull-right" value="Add Employee" id="empButton" /><br /><br /><br
+            />
         </form>
     </div>
 </div>

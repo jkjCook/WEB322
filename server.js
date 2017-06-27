@@ -128,14 +128,6 @@ app.get("/employee/:empNum", (req, res) => {
       }
     });
 });
-//route to specific department by departmentId
-app.get("/department/:departmentId", function (req, res) {
-  service.getDepartmentById(req.params.departmentId).then(function (data) {
-    res.render("department", { data: data });
-  }).catch((err) => {
-    res.status(404).send("Department Not Found");
-  })
-});
 // setup route for all managers
 app.get("/managers", function (req, res) {
   service.getManagers().then(function (data) {
@@ -154,7 +146,11 @@ app.get("/departments", function (req, res) {
 });
 //Route to add new employee
 app.get("/employees/add", (req, res) => {
-  res.render("addEmployee");
+  service.getDepartments().then((data) => {
+    res.render("addEmployee", { departments: data });
+  }).catch(() => {
+    res.render("addEmployee", { departments: [] });
+  })
 });
 //Route to add new department
 app.get("/departments/add", (req, res) => {

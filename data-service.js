@@ -19,10 +19,14 @@ var Employees = sequelize.define('Employee', {
     SSN: Sequelize.STRING,
     addressStreet: Sequelize.STRING,
     addressCity: Sequelize.STRING,
+    addressState: Sequelize.STRING,
     addressPostal: Sequelize.STRING,
     maritalStatus: Sequelize.STRING,
     isManager: Sequelize.BOOLEAN,
-    employeeManagerNum: Sequelize.INTEGER,
+    employeeManagerNum: {
+        type: Sequelize.INTEGER,
+        defaultValue: null
+    },
     status: Sequelize.STRING,
     department: Sequelize.INTEGER,
     hireDate: Sequelize.STRING,
@@ -133,17 +137,17 @@ module.exports.addEmployee = function (employeeData) {
     return new Promise(function (resolve, reject) {
         employeeData.isManager = (employeeData.isManager) ? true : false;
         for (var prop in employeeData) {
-            if (prop == "")
-                prop = null;
+            if(employeeData[prop] == '')
+                employeeData[prop] = null;
         }
         Employees.create({
-            employeeNum: employeeData.employeeNum,
             firstName: employeeData.firstName,
-            last_Name: employeeData.last_Name,
+            last_Name: employeeData.last_name,
             email: employeeData.email,
             SSN: employeeData.SSN,
             addressStreet: employeeData.addressStreet,
             addressCity:employeeData.addressCity,
+            addressState: employeeData.addressState,
             addressPostal: employeeData.addressPostal,
             maritalStatus: employeeData.maritalStatus,
             isManager: employeeData.isManager,
@@ -162,17 +166,17 @@ module.exports.updateEmployee = function (employeeData) {
     return new Promise(function (resolve, reject) {
         employeeData.isManager = (employeeData.isManager) ? true : false;
         for (var prop in employeeData) {
-            if (prop == "")
-                prop = null;
+            if(employeeData[prop] == '')
+                employeeData[prop] = null;
         }
         Employees.update({
-            employeeNum: employeeData.employeeNum,
             firstName: employeeData.firstName,
-            last_Name: employeeData.last_Name,
+            last_Name: employeeData.last_name,
             email: employeeData.email,
             SSN: employeeData.SSN,
             addressStreet: employeeData.addressStreet,
             addressCity:employeeData.addressCity,
+            addressState: employeeData.addressState,
             addressPostal: employeeData.addressPostal,
             maritalStatus: employeeData.maritalStatus,
             isManager: employeeData.isManager,
@@ -180,6 +184,10 @@ module.exports.updateEmployee = function (employeeData) {
             status: employeeData.status,
             department: employeeData.department,
             hireDate: employeeData.hireDate
+        }, {
+            where:{
+                employeeNum: employeeData.employeeNum
+            }
         }).then(() => {
             resolve("Updated employee");
         }).catch(() => {

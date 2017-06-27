@@ -1,4 +1,12 @@
 const Sequelize = require('sequelize');
+var sequelize = new Sequelize('db1uv67glvpsgd', 'zmbplreuxcxmck', '60f3401ef3f6045f8c33c089c5f1de6c6cfdf167e022d3d085724f3bfb275bd2', {
+ host: 'ec2-23-21-246-11.compute-1.amazonaws.com',
+ dialect: 'postgres',
+ port: 5432,
+ dialectOptions: {
+ ssl: true
+ }
+});
 var Employee = sequelize.define('Employee', {
     employeeNum: {
         type: Sequelize.INTEGER,

@@ -150,7 +150,7 @@ app.use(function (req, res) {
 });
 
 // setup http server to listen on HTTP_PORT
-service.initialize().then(() => {
+service.initialize().then((data) => {
   app.listen(HTTP_PORT, onHttpStart);
 }).catch((err) => {
   console.log(err);

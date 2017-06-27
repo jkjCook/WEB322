@@ -1,141 +1,85 @@
-var fs = require("fs");
-
-var employees = [];
-var departments = [];
-var empCount = 0;
-
+const Sequelize = require('sequelize');
+var Employee = sequelize.define('Employee', {
+    employeeNum: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    firstName: Sequelize.STRING,
+    last_Name: Sequelize.STRING,
+    email: Sequelize.STRING,
+    SSN: Sequelize.STRING,
+    addressStreet: Sequelize.STRING,
+    addressCity: Sequelize.STRING,
+    addressPostal: Sequelize.STRING,
+    maritalStatus: Sequelize.STRING,
+    isManager: Sequelize.BOOLEAN,
+    employeeManagerNum: Sequelize.INTEGER,
+    status: Sequelize.STRING,
+    department: Sequelize.INTEGER,
+    hireDate: Sequelize.STRING,    
+})
+var Department = sequelize.define('Department', {
+    departmentId: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    departmentName: Sequelize.STRING
+})
 module.exports.initialize = function () {
-    var loadError;
-
-    fs.readFile('./data/employees.json', 'utf8', (err, data) => {
-        if (err) throw new Error(err);
-        else {
-            employees = JSON.parse(data);
-        }
-    })
-
-    fs.readFile('./data/departments.json', 'utf8', (err, data) => {
-        if (err) throw new Error(err);
-        departments = JSON.parse(data);
-    })
     return new Promise(function (resolve, reject) {
-        if (loadError) reject(loadError);
-        else {
-            empCount = employees.length;
-            resolve("success");
-        }
-    })
-
+        sequelize.sync().then(() => {
+            resolve("Connected to the Database");
+        }).catch(() => {
+            reject("Database connection failed");
+        })
+});
 }
 
 module.exports.getAllEmployees = function () {
-    return new Promise(function (resolve, reject) {
-        if (employees.length == 0) reject("No results returned.");
-        else {
-            resolve(employees);
-        }
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 
 module.exports.getEmployeesByStatus = function (status) {
-    return new Promise(function (resolve, reject) {
-        if (employees.length == 0) reject("No results returned.");
-
-        else {
-            var holder = [];
-            for (var i = 0; i < employees.length; i++) {
-                if (employees[i].status == status)
-                    holder.push(employees[i]);
-            }
-            (holder.length != 0) ? resolve(holder) : reject("No results returned.");
-        }
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 module.exports.getEmployeesByDepartment = function (department) {
-    return new Promise(function (resolve, reject) {
-        if (employees.length == 0) reject("No results returned.");
-
-        else {
-            var holder = [];
-            for (var i = 0; i < employees.length; i++) {
-                if (employees[i].department == department)
-                    holder.push(employees[i]);
-            }
-            (holder.length != 0) ? resolve(holder) : reject("No results returned.");
-        }
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 module.exports.getEmployeesByManager = function (manager) {
-    return new Promise(function (resolve, reject) {
-        if (employees.length == 0) reject("No results returned.");
-
-        else {
-            var holder = [];
-            for (var i = 0; i < employees.length; i++) {
-                if (employees[i].employeeManagerNum == manager)
-                    holder.push(employees[i]);
-            }
-            (holder.length != 0) ? resolve(holder) : reject("No results returned.");
-        }
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 module.exports.getEmployeeByNum = function (num) {
-    return new Promise(function (resolve, reject) {
-        if (employees.length == 0) reject("No results returned.");
-        else {
-            for (var i = 0; i < employees.length; i++) {
-                if (employees[i].employeeNum == num) {
-                    resolve(employees[i]);
-                }
-            }
-            reject("No employee found.");
-        }
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 module.exports.getManagers = function () {
-    return new Promise(function (resolve, reject) {
-        if (employees.length == 0) reject("No results returned.");
-
-        else {
-            var holder = [];
-            for (var i = 0; i < employees.length; i++) {
-                if (employees[i].isManager == true || employees[i].isManager == 'on')
-                    holder.push(employees[i]);
-            }
-            resolve(holder);
-        }
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 module.exports.getDepartments = function () {
-    return new Promise(function (resolve, reject) {
-        if (departments.length == 0) reject("No results found.");
-        else resolve(departments);
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 module.exports.addEmployee = function (employeeData) {
-    empCount = employees.length;
-    empCount++;
-    return new Promise((resolve, reject) => {
-        employeeData.employeeNum = empCount;
-        employees.push(employeeData);
-        if(employees[empCount - 1].employeeNum == empCount){
-            resolve();
-        }
-        else{
-            reject("Wasn't added correctly");
-        }
-
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 }
 module.exports.updateEmployee = function(employeeData){
-    return new Promise((resolve, reject) =>{
-        var match = false;
-        for (var i = 0; i < employees.length; i++){
-            if(employeeData.employeeNum == employees[i].employeeNum){
-                employees[i] = employeeData;
-                match = true;
-            }
-        }
-        (match) ? resolve() : reject();    
+    return new Promise( function(resolve, reject) {
+        reject();
     })
 } 

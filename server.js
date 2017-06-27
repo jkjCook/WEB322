@@ -17,6 +17,7 @@ var service = require("./data-service.js");
 var querystring = require("querystring");
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const Sequelize = require('sequelize');
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,6 +37,14 @@ app.engine(".hbs", exphbs({
   }
 }));
 app.set("view engine", ".hbs");
+var sequelize = new Sequelize('db1uv67glvpsgd', 'zmbplreuxcxmck', '60f3401ef3f6045f8c33c089c5f1de6c6cfdf167e022d3d085724f3bfb275bd2', {
+ host: 'ec2-23-21-246-11.compute-1.amazonaws.com',
+ dialect: 'postgres',
+ port: 5432,
+ dialectOptions: {
+ ssl: true
+ }
+});
 
 
 var HTTP_PORT = process.env.PORT || 8080;

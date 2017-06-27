@@ -142,7 +142,7 @@ module.exports.addEmployee = function (employeeData) {
         }
         Employees.create({
             firstName: employeeData.firstName,
-            last_Name: employeeData.last_name,
+            last_Name: employeeData.last_Name,
             email: employeeData.email,
             SSN: employeeData.SSN,
             addressStreet: employeeData.addressStreet,
@@ -198,8 +198,8 @@ module.exports.updateEmployee = function (employeeData) {
 module.exports.addDepartment = function(departmentData){
     return new Promise(function (resolve, reject) {
         for (var prop in departmentData) {
-            if (prop == "")
-                prop = null;
+            if(departmentData[prop] == '')
+                departmentData[prop] = null;
         }
         Departments.create({
             departmentId: departmentData.departmentId,
@@ -213,13 +213,16 @@ module.exports.addDepartment = function(departmentData){
 } 
 module.exports.updateDepartment = function(departmentData){
     return new Promise(function(resolve, reject) {
-    for (var prop in employeeData) {
-            if (prop == "")
-                prop = null;
+    for (var prop in departmentData) {
+            if(departmentData[prop] == '')
+                departmentData[prop] = null;
         }
         Departments.update({
-            departmentId: departmentData.departmentId,
             departmentName: departmentData.departmentName
+        }, {
+        where: {
+            departmentId: departmentData.departmentId
+        }
         }).then(() => {
             resolve("Updated department");
         }).catch(() => {
@@ -237,6 +240,19 @@ module.exports.getDepartmentById = function(id){
             resolve(data[0])
         }).catch(() => {
             reject("No results returned.");
+        })
+    })
+}
+module.exports.deleteEmployeeByNum = function(empNum){
+    return new Promise(function(resolve,reject) {
+        Employees.destroy({
+            where:{
+                employeeNum: empNum
+            }
+        }).then(() => {
+            resolve("Employee destroyed");
+        }).catch(() => {
+            reject("Unable to destroy employee");
         })
     })
 }

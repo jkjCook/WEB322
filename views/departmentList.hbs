@@ -18,12 +18,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{#if data}}
                     {{#each data}}
                     <tr>
                         <td><a href="/department/{{departmentId}}">{{departmentId}}</a></td>
                         <td><a href="/employees?department={{departmentId}}">{{departmentName}}</a></td>
                     </tr>
                     {{/each}}
+                    {{else}}
+                    <tr><td>No Data Available</td></tr>
+                    {{/if}}
                 </tbody>
             </table>
         </div>

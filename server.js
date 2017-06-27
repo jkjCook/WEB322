@@ -68,7 +68,7 @@ app.get("/employees", function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
   if (result.department) {
     service.getEmployeesByDepartment(result.department).then((data) => {
-      res.render("employeeList", { data: data, title: "Emoloyees" });
+      res.render("employeeList", { data: data, title: "Employees" });
     }).catch((err) => {
       res.render("employeeList", { data: {}, title: "Employees" });
     })
@@ -127,6 +127,14 @@ app.get("/employee/:empNum", (req, res) => {
         res.render("employee", { viewData: viewData }); // render the "employee" view
       }
     });
+});
+app.get("/department/:departmentId", (req, res) => {
+  service.getDepartmentById(req.params.departmentId).then((data) =>{
+    res.render("department", {data: data})
+  }).catch(() => {
+    res.status(404);
+    res.send("Department Not Found");
+  })
 });
 // setup route for all managers
 app.get("/managers", function (req, res) {
@@ -188,6 +196,14 @@ app.post("/departments/update", (req, res) => {
     console.log("Error!");
   })
 });
+app.get("/employee/delete/:empNum", (req, res) => {
+  service.deleteEmployeeByNum(req.params.empNum).then(() => {
+    res.redirect("/employees");
+  }).catch(() => {
+    res.status(500);
+    res.send("Unable to Remove Employee / Employee not found");
+  })
+})
 
 
 // send a status code and a message when going to a route that's not included

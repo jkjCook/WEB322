@@ -6,7 +6,7 @@
 *
 * Name: Justin Cook   Student ID: 118404169   Date: 2017-06-10
 *
-* Online (Heroku) Link: https://vast-stream-84912.herokuapp.com/
+* Online (Heroku) Link: https://jcook17.herokuapp.com/
 *
 ********************************************************************************/
 

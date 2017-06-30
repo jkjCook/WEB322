@@ -41,12 +41,21 @@ body{
 		   background-color:#fff;
 	    }
 		
-		header{
-			
-			background-color: teal;
-			padding:1px 25px;
-			
-		}
+	/*Webkit styling for scrollbar, doesn't work with Firefox*/
+	body::-webkit-scrollbar {
+		width: 0.7em;
+	}
+	
+	
+	body::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+	}
+	
+	body::-webkit-scrollbar-thumb {
+	background-color: #555;
+	outline: 1px solid #222;	
+	}
+		/*Styling for the bootstrap navigation*/
 		nav a{
 			color: white !important;
 		}
@@ -54,12 +63,11 @@ body{
 			background-color:#333;
 			transition:0.2s;
 		}
-
 		nav{
 			border-radius:0 !important;
 			color:white;	
 		}
-		
+		/*Styling for fixed footer and bottom name credit*/
 		footer{
 			position: fixed;
   			right: 0;
@@ -70,10 +78,10 @@ body{
 		}
 		
 		.footercredit{
-    display:inline-block;
-    color:white;    
-    font-weight:bold;
-}
+          display:inline-block;
+          color:white;    
+          font-weight:bold;
+        }
 		
 		.home.col-md-3 {	
 			padding-top:5px;

@@ -6,38 +6,31 @@
     <link rel="stylesheet" href="/css/site.css" type="text/css" />
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
-
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <div class="row">
-                <div class="titlediv">
-                    <div>
-                        <h1>myApp.</h1>
-                    </div>
 
-                </div>
-            </div>
-        </div>
-    </header>
-    <nav>
+    <nav class="navbar navbar-inverse">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <ul class="pull-left">
-                        <li> <a href="/" onmouseover="style.color='teal'" onmouseout="style.color='black'"> Home </a> |</li>
-                        <li> <a href="/about" onmouseover="style.color='teal'" onmouseout="style.color='black'"> About </a> </li>
-                    </ul>
-                    <ul class="pull-right">
-                        <li> <a href="/employees" onmouseover="style.color='teal'" onmouseout="style.color='black'"> All Employees </a>                            |</li>
-                        <li> <a href="/managers" onmouseover="style.color='teal'" onmouseout="style.color='black'"> Managers </a>                            |</li>
-                        <li> <a href="/departments" onmouseover="style.color='teal'" onmouseout="style.color='black'"> Departments </a>                            </li>
-                    </ul>
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand"><strong>myapp.</strong></a>
+                        </div>
+                        <ul class="nav navbar-nav">
+                            <li><a href="/"> Home </a></li>
+                            <li><a href="/about"> About </a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/employees"> All Employees </a></li>
+                            <li><a href="/managers"> Managers </a></li>
+                            <li><a href="/departments"> Departments </a></li>
+                        </ul>
+
+                    </div>
                 </div>
             </div>
-        </div>
     </nav>
     <div class="container">
         {{{body}}}
@@ -46,7 +39,7 @@
         <div class="container">
             <div class="row">
                 <div class="footer col-md-12">
-                    <h2>&copy; Justin Cook</h2>
+                    <a class="footercredit" href="https://github.com/jkjCook"><span class="icon-brand"></span>&nbsp;&nbsp;Justin Cook</a>
                 </div>
             </div>
         </div>

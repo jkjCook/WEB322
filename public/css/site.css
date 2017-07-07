@@ -126,3 +126,7 @@ body{
 		.list.col-md-12{
 			margin-bottom:4%;
 		}
+		.active{
+			height:10px;
+			width:10px;
+		}

@@ -17,7 +17,8 @@ var service = require("./data-service.js");
 var querystring = require("querystring");
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-
+const mongoose = require('mongoose');
+const dataServiceComments = require("./data-service-comments.js");
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));

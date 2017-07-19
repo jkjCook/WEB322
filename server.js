@@ -1,10 +1,10 @@
 /*********************************************************************************
-* WEB322 – Assignment 05
+* WEB322 – Assignment 06
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
 *
-* Name: Justin Cook   Student ID: 118404169   Date: 2017-06-27
+* Name: Justin Cook   Student ID: 118404169   Date: 18-JUL-2017
 *
 * Online (Heroku) Link: https://jcook17.herokuapp.com/
 *

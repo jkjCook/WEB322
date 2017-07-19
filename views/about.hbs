@@ -8,8 +8,111 @@
 			<p>my main interests don't revolve around web development but I am slowly starting to be more interested as we progress and
 				learn cooler and more useful</p>
 			<p>things and I am looking forward to making and deploying web applications.</p>
-		<br/>
+			<br/>
 		</article>
 		<br/>
 	</section>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<h3>Leave a Comment</h3>
+		<div class="well">
+			<div class="row">
+				<div class="col-md-12">
+					<form method="post" action="/about/addComment">
+						<div class="col-md-6">
+							<input class="form-control" type="text" name="authorName" id="authorName" placeholder="Name">
+						</div>
+						<div class="col-md-6">
+							<input class="form-control" type="email" name="authorEmail" id="authorEmail" placeholder="Email">
+							<br/>
+						</div>
+						<br/>
+						<div class="col-md-12">
+							<input class="form-control" type="text" name="subject" id="subject" placeholder="Subject">
+							<br/>
+							<textarea class="form-control" rows="6" id="commentText" name="commentText" placeholder="Comment"></textarea>
+						</div>
+
+						<div class="col-md-12">
+							<br/>
+							<input class="form-contol btn btn-default pull-right" id="submit" name="submit" type="submit" value="Comment">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{#if data}}
+<div class="row">
+	<div class="col-md-12">
+		<h3>All Comments</h3>
+		<hr />
+	</div>
+</div>
+{{/if}} {{#each data}}
+<div class="row">
+	<div class="col-md-12">
+		<h4>{{subject}}</h4>
+		<div class="well">
+			<div class="row">
+				<div class="col-md-12">
+					{{commentText}}<br /><br/>
+					<small>Posted on: {{postedDate}} by: <a href="mailto:{{authorEmail}}">{{authorName}}</a></small>
+				</div>
+			</div>
+			<hr/> {{#each replies}}
+			<div class="row">
+				<div class="col-md-12">
+					<div class="well">
+						{{commentText}}<br /><br/>
+						<small>Posted on: {{repliedDate}} by: <a href="mailto:{{authorEmail}}">{{authorName}}</a></small>
+					</div>
+				</div>
+			</div>
+			{{/each}}
+			<div class="row">
+				<div class="col-md-12">
+					<button class="btn btn-default pull-right btn-sm" type="button" data-toggle="collapse" data-target="#reply-{{_id}}" aria-expanded="false">Reply</button>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="collapse" id="reply-{{_id}}">
+			<form action="/about/addReply" method="POST">
+				<div class="well">
+					<div class="row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Name" name="authorName" />
+							<br />
+						</div>
+						<div class="col-md-6">
+							<input type="email" class="form-control" placeholder="Email" name="authorEmail" />
+							<br />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<textarea class="form-control" rows="8" placeholder="Comment" name="commentText"></textarea>
+							<br />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2 col-md-offset-10">
+							<input type="hidden" value="{{_id}}" name="comment_id" />
+							<button type="submit" class="btn btn-default form-control">Reply</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{{/each}}
+<div class="row">
+	<br/><br/><br/><br/>
 </div>

@@ -17,7 +17,6 @@ var service = require("./data-service.js");
 var querystring = require("querystring");
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const dataServiceComments = require("./data-service-comments.js");
 app.use(express.static('public'));
 
@@ -55,8 +54,13 @@ app.get("/", function (req, res) {
 
 // setup another route to listen on /about
 app.get("/about", function (req, res) {
-  res.render("about");
+  dataServiceComments.getAllComments().then((data) =>{
+    res.render("about", {data: data});
+  }).catch((err) =>{
+    res.render("about");
+  })
 });
+
 // setup a route to listen for employee queries
 app.get("/employees", function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
@@ -123,8 +127,8 @@ app.get("/employee/:empNum", (req, res) => {
     });
 });
 app.get("/department/:departmentId", (req, res) => {
-  service.getDepartmentById(req.params.departmentId).then((data) =>{
-    res.render("department", {data: data})
+  service.getDepartmentById(req.params.departmentId).then((data) => {
+    res.render("department", { data: data })
   }).catch(() => {
     res.status(404);
     res.send("Department Not Found");
@@ -198,7 +202,22 @@ app.get("/employee/delete/:empNum", (req, res) => {
     res.send("Unable to Remove Employee / Employee not found");
   })
 })
-
+app.post("/about/addComment", (req, res) =>{
+  dataServiceComments.addComment(req.body).then((data) => {
+    res.redirect("/about");
+  }).catch((err) =>{
+    console.log(err);
+    res.redirect("/about");
+  })
+});
+app.post("/about/addReply", (req, res) =>{
+  dataServiceComments.addReply(req.body).then((data) => {
+    res.redirect("/about");
+  }).catch((err) =>{
+    console.log(err);
+    res.redirect("/about");
+  })
+});
 
 // send a status code and a message when going to a route that's not included
 app.use(function (req, res) {
@@ -207,9 +226,11 @@ app.use(function (req, res) {
 });
 
 // setup http server to listen on HTTP_PORT
-service.initialize().then((data) => {
+service.initialize().then(dataServiceComments.initialize()).then(() => {  
   app.listen(HTTP_PORT, onHttpStart);
 }).catch((err) => {
   console.log(err);
 })
+
+
 

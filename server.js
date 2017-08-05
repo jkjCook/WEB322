@@ -18,6 +18,8 @@ var querystring = require("querystring");
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const dataServiceComments = require("./data-service-comments.js");
+const clientSessions = require("client-sessions");
+const dataServiceAuth = require("./data-service-auth.js")
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,6 +40,23 @@ app.engine(".hbs", exphbs({
 }));
 app.set("view engine", ".hbs");
 
+app.use(clientSessions({
+  cookieName: "session", // this is the object name that will be added to 'req'
+  secret: "webapp_web322", // this should be a long un-guessable string.
+  duration: 2 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
+  activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
+}));
+app.use(function (req, res, next) {
+  res.locals.session = req.session;
+  next();
+});
+function ensureLogin(req, res, next) {
+  if (!req.session.user) {
+    res.redirect("/login");
+  } else {
+    next();
+  }
+}
 
 
 var HTTP_PORT = process.env.PORT || 8080;
@@ -54,15 +73,15 @@ app.get("/", function (req, res) {
 
 // setup another route to listen on /about
 app.get("/about", function (req, res) {
-  dataServiceComments.getAllComments().then((data) =>{
-    res.render("about", {data: data});
-  }).catch((err) =>{
+  dataServiceComments.getAllComments().then((data) => {
+    res.render("about", { data: data });
+  }).catch((err) => {
     res.render("about");
   })
 });
 
 // setup a route to listen for employee queries
-app.get("/employees", function (req, res) {
+app.get("/employees", ensureLogin, function (req, res) {
   var result = querystring.parse(req.originalUrl, "?", "=");
   if (result.department) {
     service.getEmployeesByDepartment(result.department).then((data) => {
@@ -96,7 +115,7 @@ app.get("/employees", function (req, res) {
 
 });
 // setup route to employee plus a numeric value for which employee you are looking for
-app.get("/employee/:empNum", (req, res) => {
+app.get("/employee/:empNum", ensureLogin, (req, res) => {
   // initialize an empty object to store the values
   let viewData = {};
   service.getEmployeeByNum(req.params.empNum)
@@ -126,7 +145,7 @@ app.get("/employee/:empNum", (req, res) => {
       }
     });
 });
-app.get("/department/:departmentId", (req, res) => {
+app.get("/department/:departmentId", ensureLogin, (req, res) => {
   service.getDepartmentById(req.params.departmentId).then((data) => {
     res.render("department", { data: data })
   }).catch(() => {
@@ -135,7 +154,7 @@ app.get("/department/:departmentId", (req, res) => {
   })
 });
 // setup route for all managers
-app.get("/managers", function (req, res) {
+app.get("/managers", ensureLogin, function (req, res) {
   service.getManagers().then(function (data) {
     res.render("employeeList", { data: data, title: "Employees (Managers)" });
   }).catch((err) => {
@@ -143,7 +162,7 @@ app.get("/managers", function (req, res) {
   })
 });
 // setup route for all departments
-app.get("/departments", function (req, res) {
+app.get("/departments", ensureLogin, function (req, res) {
   service.getDepartments().then(function (data) {
     res.render("departmentList", { data: data, title: "Departments" });
   }).catch((err) => {
@@ -151,7 +170,7 @@ app.get("/departments", function (req, res) {
   })
 });
 //Route to add new employee
-app.get("/employees/add", (req, res) => {
+app.get("/employees/add", ensureLogin, (req, res) => {
   service.getDepartments().then((data) => {
     res.render("addEmployee", { departments: data });
   }).catch(() => {
@@ -159,11 +178,11 @@ app.get("/employees/add", (req, res) => {
   })
 });
 //Route to add new department
-app.get("/departments/add", (req, res) => {
+app.get("/departments/add", ensureLogin, (req, res) => {
   res.render("addDepartment");
 });
 //Post route for adding a new employee
-app.post("/employees/add", (req, res) => {
+app.post("/employees/add", ensureLogin, (req, res) => {
   service.addEmployee(req.body).then(() => {
     res.redirect("/employees");
   }).catch((err) => {
@@ -171,7 +190,7 @@ app.post("/employees/add", (req, res) => {
   })
 });
 //Post route for adding new department
-app.post("/departments/add", (req, res) => {
+app.post("/departments/add", ensureLogin, (req, res) => {
   service.addDepartment(req.body).then(() => {
     res.redirect("/departments");
   }).catch((err) => {
@@ -179,7 +198,7 @@ app.post("/departments/add", (req, res) => {
   })
 });
 //Post route to update employee information
-app.post("/employee/update", (req, res) => {
+app.post("/employee/update", ensureLogin, (req, res) => {
   service.updateEmployee(req.body).then(() => {
     res.redirect("/employees");
   }).catch(() => {
@@ -187,14 +206,14 @@ app.post("/employee/update", (req, res) => {
   })
 });
 //Post route to update department
-app.post("/departments/update", (req, res) => {
+app.post("/departments/update", ensureLogin, (req, res) => {
   service.updateDepartment(req.body).then(() => {
     res.redirect("/departments");
   }).catch(() => {
     console.log("Error!");
   })
 });
-app.get("/employee/delete/:empNum", (req, res) => {
+app.get("/employee/delete/:empNum", ensureLogin, (req, res) => {
   service.deleteEmployeeByNum(req.params.empNum).then(() => {
     res.redirect("/employees");
   }).catch(() => {
@@ -202,22 +221,50 @@ app.get("/employee/delete/:empNum", (req, res) => {
     res.send("Unable to Remove Employee / Employee not found");
   })
 })
-app.post("/about/addComment", (req, res) =>{
+app.post("/about/addComment", (req, res) => {
   dataServiceComments.addComment(req.body).then((data) => {
     res.redirect("/about");
-  }).catch((err) =>{
+  }).catch((err) => {
     console.log(err);
     res.redirect("/about");
   })
 });
-app.post("/about/addReply", (req, res) =>{
+app.post("/about/addReply", (req, res) => {
   dataServiceComments.addReply(req.body).then((data) => {
     res.redirect("/about");
-  }).catch((err) =>{
+  }).catch((err) => {
     console.log(err);
     res.redirect("/about");
   })
 });
+app.get("/login", (req, res) => {
+  res.render("login");
+})
+app.get("/register", (req, res) => {
+  res.render("register");
+})
+app.post("/register", (req, res) => {
+  dataServiceAuth.registerUser(req.body).then(() => {
+    res.render("register", { successMessage: "User created" });
+  }).catch((err) => {
+    res.render("register", { errorMessage: err, user: req.body.user });
+  })
+})
+app.post("/login", (req, res) => {
+  dataServiceAuth.checkUser(req.body).then(() => {
+    
+    req.session.user = {
+      username: req.body.user,
+    };
+    res.redirect("/employees");
+  }).catch((err) => {
+    res.render("login", { errorMessage: err, user: req.body.user });
+  })
+})
+app.get("/logout", (req, res) => {
+  req.session.reset();
+  res.redirect("/");
+})
 
 // send a status code and a message when going to a route that's not included
 app.use(function (req, res) {
@@ -226,11 +273,14 @@ app.use(function (req, res) {
 });
 
 // setup http server to listen on HTTP_PORT
-service.initialize().then(dataServiceComments.initialize()).then(() => {  
-  app.listen(HTTP_PORT, onHttpStart);
-}).catch((err) => {
-  console.log(err);
-})
+service.initialize()
+  .then(dataServiceComments.initialize())
+  .then(dataServiceAuth.initialize())
+  .then(() => {
+    app.listen(HTTP_PORT, onHttpStart);
+  }).catch((err) => {
+    console.log(err);
+  })
 
 
 

@@ -3,11 +3,13 @@
 
 <head>
     <title>WEB322 App</title>
-    <link rel="stylesheet" href="css/site.css" type="text/css" />
+    <link rel="stylesheet" href="/css/site.css" type="text/css" />
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
 </head>
 
@@ -25,9 +27,16 @@
                             <li><a href="/about"> About </a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
+                            {{#if session.user}}
                             <li><a href="/employees"> All Employees </a></li>
                             <li><a href="/managers"> Managers </a></li>
                             <li><a href="/departments"> Departments </a></li>
+                            <li><a href="/logout" class="btn-danger">Logout: {{session.user.username}}</a></li>
+                            {{else}}
+                            <li><a href="/login" class="btn-primary">&nbsp;&nbsp;Login&nbsp;&nbsp;</a></li>
+                            <li><a href="/register" class="btn-success">Register</a></li>
+                            {{/if}}
+
                         </ul>
 
                     </div>

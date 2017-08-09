@@ -1,10 +1,10 @@
 /*********************************************************************************
-* WEB322 – Assignment 06
+* WEB322 – Assignment 08
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
 *
-* Name: Justin Cook   Student ID: 118404169   Date: 18-JUL-2017
+* Name: Justin Cook   Student ID: 118404169   Date: 09-AUG-2017
 *
 * Online (Heroku) Link: https://jcook17.herokuapp.com/
 *
@@ -19,10 +19,12 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const dataServiceComments = require("./data-service-comments.js");
 const clientSessions = require("client-sessions");
-const dataServiceAuth = require("./data-service-auth.js")
-app.use(express.static('public'));
+const dataServiceAuth = require("./data-service-auth.js");
 
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); 
+
 app.engine(".hbs", exphbs({
   extname: ".hbs",
   defaultLayout: 'layout',
@@ -264,6 +266,17 @@ app.post("/login", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.reset();
   res.redirect("/");
+})
+app.post("/api/updatePassword", (req, res) => {
+  dataServiceAuth.checkUser({ user: req.body.user, password: req.body.currentPassword }).then(() =>{
+    dataServiceAuth.updatePassword(req.body).then(() =>{
+      res.json({successMessage: "Password changed successfully for user: " + req.body.user});
+    }).catch((err) =>{
+      res.json({errorMessage: err});
+    });
+  }).catch((err) =>{
+    res.json({errorMessage: err})
+  })
 })
 
 // send a status code and a message when going to a route that's not included

@@ -138,3 +138,17 @@ body{
 .well .well{
 	background-color:white;
 }
+.dropdown{
+	margin-top:6.5%;
+	margin-left:5%;
+}
+.dropdown-menu{
+	background-color:#222 !important;	
+}
+
+.dropdown-menu a:hover{
+	background-color:#333 !important;	
+}
+.off:hover{
+	background-color:#222;
+}
